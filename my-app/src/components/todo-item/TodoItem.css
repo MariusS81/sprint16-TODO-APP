@@ -1,56 +1,46 @@
 .todo-item {
-    padding: 10px;
-    border: 2px solid rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    margin: 10px 0;
-  }
-  
-  .todo-item-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .todo-item-header .fa-pencil {
-    color: #4caf50;
-    margin-right: 10px;
-  }
-  
-  .todo-item-header .fa-trash {
-    color: #f44336;
-  }
-  
-  .todo-item-header i {
-    cursor: pointer;
-  }
-  
-  .todo-item h4 {
-    display: inline-block;
-    padding: 0 10px;
-  }
-  
-  .todo-item h4,
-  p {
-    margin: 0;
-  }
-  
-  .todo-item p {
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .todo-completed {
-    opacity: 0.5;
-  }
-  
-  .todo-completed h4,
-  .todo-completed p {
-    text-decoration: line-through;
-  }
-  
-  .title-area {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: white; /* Adaugă un fundal alb pentru claritate */
+}
+
+.title-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.title-area h4 {
+  margin: 0 10px;
+  flex-grow: 1;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+}
+
+.todo-item .fa-pencil,
+.todo-item .fa-trash {
+  cursor: pointer;
+}
+
+.todo-item .fa-pencil:hover,
+.todo-item .fa-trash:hover {
+  color: #007bff;
+}
+
+.todo-completed {
+  background-color: #f0f0f0;
+}
+
+.separator {
+  height: 1px;
+  background: #ccc;
+  margin: 10px 0;
+}

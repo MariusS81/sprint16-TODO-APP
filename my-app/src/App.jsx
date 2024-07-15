@@ -38,29 +38,36 @@ const TODOS_MOCK = [
 function App() {
   const [todos, setTodos] = useState(TODOS_MOCK);
   const [modalOpen, setModalOpen] = useState(false);
-  const [newTodo, setNewTodo] = useState({ title: "", description: "" });
+  const [currentTodo, setCurrentTodo] = useState({ id: null, title: "", description: "" });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewTodo({
-      ...newTodo,
+    setCurrentTodo({
+      ...currentTodo,
       [name]: value,
     });
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const newTodoItem = {
-      ...newTodo,
-      id: (todos.length + 1).toString(),
-      completed: false,
-    };
-    setTodos([...todos, newTodoItem]);
+    if (currentTodo.id) {
+      setTodos(todos.map(todo =>
+        todo.id === currentTodo.id ? { ...currentTodo, completed: todo.completed } : todo
+      ));
+    } else {
+      const newTodoItem = {
+        ...currentTodo,
+        id: (todos.length + 1).toString(),
+        completed: false,
+      };
+      setTodos([...todos, newTodoItem]);
+    }
     setModalOpen(false);
-    setNewTodo({ title: "", description: "" });
+    setCurrentTodo({ id: null, title: "", description: "" });
   };
 
-  const openModal = () => {
+  const openModal = (todo) => {
+    setCurrentTodo(todo ? todo : { id: null, title: "", description: "" });
     setModalOpen(true);
   };
 
@@ -69,49 +76,56 @@ function App() {
   };
 
   const handleCheckboxChange = (id, completed) => {
-    setTodos(todos.map(todo => 
+    setTodos(todos.map(todo =>
       todo.id === id ? { ...todo, completed: completed } : todo
     ));
+  };
+
+  const handleDelete = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
   };
 
   return (
     <div className="App">
       <div className="app-container">
-        
         <Card>
           <h1>My Todo List</h1>
-          <Button onClick={openModal}>Add +</Button>
+          <Button onClick={() => openModal(null)}>Add +</Button>
 
-          
           <Modal isOpen={modalOpen} onClose={closeModal}>
-            <h2>Add Todo</h2>
+            <h2>{currentTodo.id ? "Edit Todo" : "Add Todo"}</h2>
             <form onSubmit={handleFormSubmit}>
               <Input
                 name="title"
-                value={newTodo.title}
+                value={currentTodo.title}
                 onChange={handleInputChange}
                 placeholder="Title"
                 type="text"
               />
               <TextArea
                 name="description"
-                value={newTodo.description}
+                value={currentTodo.description}
                 onChange={handleInputChange}
                 placeholder="Description"
               />
-              <Button type="submit">Add</Button>
+              <Button type="submit">{currentTodo.id ? "Save" : "Add"}</Button>
             </form>
           </Modal>
         </Card>
 
-        
         <Card>
           <h2>Active Todos</h2>
           <div>
             {todos
               .filter((todo) => !todo.completed)
               .map((todo) => (
-                <TodoItem key={todo.id} todo={todo} onCheckboxChange={handleCheckboxChange} />
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  onCheckboxChange={handleCheckboxChange}
+                  onDelete={handleDelete}
+                  onEdit={openModal}
+                />
               ))}
           </div>
 
@@ -122,7 +136,13 @@ function App() {
             {todos
               .filter((todo) => todo.completed)
               .map((todo) => (
-                <TodoItem key={todo.id} todo={todo} onCheckboxChange={handleCheckboxChange} />
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  onCheckboxChange={handleCheckboxChange}
+                  onDelete={handleDelete}
+                  onEdit={openModal}
+                />
               ))}
           </div>
         </Card>
