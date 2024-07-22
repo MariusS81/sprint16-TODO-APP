@@ -1,0 +1,56 @@
+.todo-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: white; /* Adaugă un fundal alb pentru claritate */
+}
+
+.title-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.title-area h4 {
+  margin: 0 10px;
+  flex-grow: 1;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+}
+
+.todo-item .fa-pencil,
+.todo-item .fa-trash {
+  cursor: pointer;
+}
+
+.todo-item .fa-pencil:hover,
+.todo-item .fa-trash:hover {
+  color: #007bff;
+}
+
+.todo-completed {
+  background-color: #f0f0f0;
+}
+
+.separator {
+  height: 1px;
+  background: #ccc;
+  margin: 10px 0;
+}
+
+.todo-item-header .fa-pencil,
+.todo-item-header .fa-trash {
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.todo-item-header i {
+  cursor: pointer;
+}
